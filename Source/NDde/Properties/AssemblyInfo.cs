@@ -69,6 +69,6 @@ using System.Runtime.InteropServices;
 //
 // https://semver.org/spec/v2.0.0.html
 [assembly: AssemblyVersion("3.0.0")]
-[assembly: AssemblyFileVersion("3.0.0")]
+[assembly: AssemblyFileVersion("3.0.1")]
 
 [assembly: CLSCompliant(true)]
