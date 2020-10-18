@@ -34,66 +34,71 @@
 #endregion
 
 namespace NDde
+{
+    /// <summary>
+    ///   This namespace contains classes for using Dynamic Data Exchange (DDE) in .NET.
+    /// </summary>
+    internal sealed class NamespaceDoc
+  {
+    // This class is used by NDoc to build the namespace documentation.
+    private NamespaceDoc()
     {
-        /// <summary>
-        ///     This namespace contains classes for using Dynamic Data Exchange (DDE) in .NET.
-        /// </summary>
-        internal sealed class NamespaceDoc
-            {
-                // This class is used by NDoc to build the namespace documentation.
-                private NamespaceDoc()
-                    { }
-            }
-    } // namespace
+    }
+  }
+} // namespace
 
 namespace NDde.Advanced
+{
+    /// <summary>
+    ///   This namespace contains classes for using advanced features of the library.
+    /// </summary>
+    internal sealed class NamespaceDoc
+  {
+    // This class is used by NDoc to build the namespace documentation.
+    private NamespaceDoc()
     {
-        /// <summary>
-        ///     This namespace contains classes for using advanced features of the library.
-        /// </summary>
-        internal sealed class NamespaceDoc
-            {
-                // This class is used by NDoc to build the namespace documentation.
-                private NamespaceDoc()
-                    { }
-            }
-    } // namespace
+    }
+  }
+} // namespace
 
 namespace NDde.Advanced.Monitor
+{
+    /// <summary>
+    ///   This namespace contains classes for creating DDE monitors.
+    /// </summary>
+    internal sealed class NamespaceDoc
+  {
+    // This class is used by NDoc to build the namespace documentation.
+    private NamespaceDoc()
     {
-        /// <summary>
-        ///     This namespace contains classes for creating DDE monitors.
-        /// </summary>
-        internal sealed class NamespaceDoc
-            {
-                // This class is used by NDoc to build the namespace documentation.
-                private NamespaceDoc()
-                    { }
-            }
-    } // namespace
+    }
+  }
+} // namespace
 
 namespace NDde.Client
+{
+    /// <summary>
+    ///   This namespace contains classes for creating DDE client applications.
+    /// </summary>
+    internal sealed class NamespaceDoc
+  {
+    // This class is used by NDoc to build the namespace documentation.
+    private NamespaceDoc()
     {
-        /// <summary>
-        ///     This namespace contains classes for creating DDE client applications.
-        /// </summary>
-        internal sealed class NamespaceDoc
-            {
-                // This class is used by NDoc to build the namespace documentation.
-                private NamespaceDoc()
-                    { }
-            }
-    } // namespace
+    }
+  }
+} // namespace
 
 namespace NDde.Server
+{
+    /// <summary>
+    ///   This namespace contains classes for creating DDE server applications.
+    /// </summary>
+    internal sealed class NamespaceDoc
+  {
+    // This class is used by NDoc to build the namespace documentation.
+    private NamespaceDoc()
     {
-        /// <summary>
-        ///     This namespace contains classes for creating DDE server applications.
-        /// </summary>
-        internal sealed class NamespaceDoc
-            {
-                // This class is used by NDoc to build the namespace documentation.
-                private NamespaceDoc()
-                    { }
-            }
-    } // namespace
+    }
+  }
+} // namespace

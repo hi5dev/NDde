@@ -34,14 +34,14 @@
 #endregion
 
 namespace NDde.Foundation.Advanced
+{
+  internal sealed class DdemlRegistrationEventArgs : DdemlEventArgs
+  {
+    public DdemlRegistrationEventArgs(string service)
     {
-        internal sealed class DdemlRegistrationEventArgs : DdemlEventArgs
-            {
-                public DdemlRegistrationEventArgs(string service)
-                    {
-                        Service = service;
-                    }
+      Service = service;
+    }
 
-                public string Service { get; } = "";
-            } // class
-    } // namespace
+    public string Service { get; } = "";
+  } // class
+} // namespace

@@ -34,23 +34,23 @@
 #endregion
 
 namespace NDde.Foundation.Client
+{
+  internal sealed class DdemlAdviseEventArgs : DdemlEventArgs
+  {
+    public DdemlAdviseEventArgs(string item, int format, object state, byte[] data)
     {
-        internal sealed class DdemlAdviseEventArgs : DdemlEventArgs
-            {
-                public DdemlAdviseEventArgs(string item, int format, object state, byte[] data)
-                    {
-                        Item = item;
-                        Format = format;
-                        State = state;
-                        Data = data;
-                    }
+      Item = item;
+      Format = format;
+      State = state;
+      Data = data;
+    }
 
-                public string Item { get; } = "";
+    public string Item { get; } = "";
 
-                public int Format { get; }
+    public int Format { get; }
 
-                public object State { get; }
+    public object State { get; }
 
-                public byte[] Data { get; }
-            } // class
-    } // namespace
+    public byte[] Data { get; }
+  } // class
+} // namespace

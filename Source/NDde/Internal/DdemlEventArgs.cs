@@ -36,20 +36,18 @@
 using System;
 
 namespace NDde.Foundation
+{
+  internal abstract class DdemlEventArgs : EventArgs
+  {
+    public override string ToString()
     {
-        internal abstract class DdemlEventArgs : EventArgs
-            {
-                public override string ToString()
-                    {
-                        string s = "";
-                        foreach (var property in GetType().GetProperties())
-                            {
-                                if (s.Length == 0)
-                                    s += property.Name + "=" + property.GetValue(this, null);
-                                else
-                                    s += " " + property.Name + "=" + property.GetValue(this, null);
-                            }
-                        return s;
-                    }
-            } // class
-    } // namespace
+      var s = "";
+      foreach (var property in GetType().GetProperties())
+        if (s.Length == 0)
+          s += property.Name + "=" + property.GetValue(this, null);
+        else
+          s += " " + property.Name + "=" + property.GetValue(this, null);
+      return s;
+    }
+  } // class
+} // namespace

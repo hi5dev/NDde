@@ -34,9 +34,9 @@
 #endregion
 
 namespace NDde.Foundation.Advanced
-    {
-        internal interface IDdemlTransactionFilter
-            {
-                bool PreFilterTransaction(DdemlTransaction t);
-            } // interface
-    } // namespace
+{
+  internal interface IDdemlTransactionFilter
+  {
+    bool PreFilterTransaction(DdemlTransaction t);
+  } // interface
+} // namespace

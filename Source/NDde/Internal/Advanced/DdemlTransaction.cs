@@ -36,51 +36,49 @@
 using System;
 
 namespace NDde.Foundation.Advanced
+{
+  internal sealed class DdemlTransaction
+  {
+    public DdemlTransaction(int uType, int uFmt, IntPtr hConv, IntPtr hsz1, IntPtr hsz2, IntPtr hData,
+      IntPtr dwData1, IntPtr dwData2)
     {
-        internal sealed class DdemlTransaction
-            {
-                public DdemlTransaction(int uType, int uFmt, IntPtr hConv, IntPtr hsz1, IntPtr hsz2, IntPtr hData,
-                    IntPtr dwData1, IntPtr dwData2)
-                    {
-                        this.uType = uType;
-                        this.uFmt = uFmt;
-                        this.hConv = hConv;
-                        this.hsz1 = hsz1;
-                        this.hsz2 = hsz2;
-                        this.hData = hData;
-                        this.dwData1 = dwData1;
-                        this.dwData2 = dwData2;
-                    }
+      this.uType = uType;
+      this.uFmt = uFmt;
+      this.hConv = hConv;
+      this.hsz1 = hsz1;
+      this.hsz2 = hsz2;
+      this.hData = hData;
+      this.dwData1 = dwData1;
+      this.dwData2 = dwData2;
+    }
 
-                public int uType { get; }
+    public int uType { get; }
 
-                public int uFmt { get; }
+    public int uFmt { get; }
 
-                public IntPtr hConv { get; } = IntPtr.Zero;
+    public IntPtr hConv { get; } = IntPtr.Zero;
 
-                public IntPtr hsz1 { get; } = IntPtr.Zero;
+    public IntPtr hsz1 { get; } = IntPtr.Zero;
 
-                public IntPtr hsz2 { get; } = IntPtr.Zero;
+    public IntPtr hsz2 { get; } = IntPtr.Zero;
 
-                public IntPtr hData { get; } = IntPtr.Zero;
+    public IntPtr hData { get; } = IntPtr.Zero;
 
-                public IntPtr dwData1 { get; } = IntPtr.Zero;
+    public IntPtr dwData1 { get; } = IntPtr.Zero;
 
-                public IntPtr dwData2 { get; } = IntPtr.Zero;
+    public IntPtr dwData2 { get; } = IntPtr.Zero;
 
-                public IntPtr dwRet { get; set; } = IntPtr.Zero;
+    public IntPtr dwRet { get; set; } = IntPtr.Zero;
 
-                public override string ToString()
-                    {
-                        string s = "";
-                        foreach (var property in GetType().GetProperties())
-                            {
-                                if (s.Length == 0)
-                                    s += property.Name + "=" + property.GetValue(this, null);
-                                else
-                                    s += " " + property.Name + "=" + property.GetValue(this, null);
-                            }
-                        return s;
-                    }
-            } // class
-    } // namespace
+    public override string ToString()
+    {
+      var s = "";
+      foreach (var property in GetType().GetProperties())
+        if (s.Length == 0)
+          s += property.Name + "=" + property.GetValue(this, null);
+        else
+          s += " " + property.Name + "=" + property.GetValue(this, null);
+      return s;
+    }
+  } // class
+} // namespace

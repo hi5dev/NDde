@@ -37,22 +37,22 @@ using System;
 using NDde.Foundation.Advanced.Monitor;
 
 namespace NDde.Advanced.Monitor
+{
+    /// <summary>
+    ///   This contains information about events on <c>DdeMonitor</c>.
+    /// </summary>
+    public abstract class DdeActivityEventArgs : DdeEventArgs
+  {
+    private readonly DdemlActivityEventArgs _DdemlObject;
+
+    internal DdeActivityEventArgs(DdemlActivityEventArgs args)
     {
-        /// <summary>
-        ///     This contains information about events on <c>DdeMonitor</c>.
-        /// </summary>
-        public abstract class DdeActivityEventArgs : DdeEventArgs
-            {
-                private readonly DdemlActivityEventArgs _DdemlObject;
+      _DdemlObject = args;
+    }
 
-                internal DdeActivityEventArgs(DdemlActivityEventArgs args)
-                    {
-                        _DdemlObject = args;
-                    }
-
-                /// <summary>
-                ///     This gets the task handle of the application associated with this event.
-                /// </summary>
-                public IntPtr TaskHandle => _DdemlObject.TaskHandle;
-            } // class
-    } // namespace
+    /// <summary>
+    ///   This gets the task handle of the application associated with this event.
+    /// </summary>
+    public IntPtr TaskHandle => _DdemlObject.TaskHandle;
+  } // class
+} // namespace

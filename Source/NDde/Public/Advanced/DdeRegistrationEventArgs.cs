@@ -36,21 +36,22 @@
 using NDde.Foundation.Advanced;
 
 namespace NDde.Advanced
+{
+    /// <summary>
+    ///   This contains information about the <c>Register</c> and <c>Unregister</c> events.
+    /// </summary>
+    /// <threadsafety static="true" instance="false" />
+    public sealed class DdeRegistrationEventArgs : DdeEventArgs
+  {
+    private readonly DdemlRegistrationEventArgs _DdemlObject = null;
+
+    internal DdeRegistrationEventArgs(DdemlRegistrationEventArgs args)
     {
-        /// <summary>
-        ///     This contains information about the <c>Register</c> and <c>Unregister</c> events.
-        /// </summary>
-        /// <threadsafety static="true" instance="false" />
-        public sealed class DdeRegistrationEventArgs : DdeEventArgs
-            {
-                private readonly DdemlRegistrationEventArgs _DdemlObject = null;
+    }
 
-                internal DdeRegistrationEventArgs(DdemlRegistrationEventArgs args)
-                    { }
-
-                /// <summary>
-                ///     This gets the service name associated with this event.
-                /// </summary>
-                public string Service => _DdemlObject.Service;
-            } // class
-    } // namespace
+    /// <summary>
+    ///   This gets the service name associated with this event.
+    /// </summary>
+    public string Service => _DdemlObject.Service;
+  } // class
+} // namespace

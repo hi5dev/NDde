@@ -36,14 +36,14 @@
 using System;
 
 namespace NDde.Foundation.Advanced.Monitor
+{
+  internal abstract class DdemlActivityEventArgs : DdemlEventArgs
+  {
+    public DdemlActivityEventArgs(IntPtr taskHandle)
     {
-        internal abstract class DdemlActivityEventArgs : DdemlEventArgs
-            {
-                public DdemlActivityEventArgs(IntPtr taskHandle)
-                    {
-                        TaskHandle = taskHandle;
-                    }
+      TaskHandle = taskHandle;
+    }
 
-                public IntPtr TaskHandle { get; } = IntPtr.Zero;
-            } // class
-    } // namespace
+    public IntPtr TaskHandle { get; } = IntPtr.Zero;
+  } // class
+} // namespace

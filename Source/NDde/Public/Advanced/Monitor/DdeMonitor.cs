@@ -39,377 +39,378 @@ using NDde.Foundation;
 using NDde.Foundation.Advanced.Monitor;
 
 namespace NDde.Advanced.Monitor
+{
+    /// <summary>
+    ///   This specifies the different kinds of DDE activity that can be monitored.
+    /// </summary>
+    [Flags]
+  public enum DdeMonitorFlags
+  {
+      /// <summary>
+      ///   This indicates activity caused by the execution of a DDEML callback.
+      /// </summary>
+      Callback = DdemlMonitorFlags.Callback,
+
+      /// <summary>
+      ///   This indicates activity caused by conversation.
+      /// </summary>
+      Conversation = DdemlMonitorFlags.Conversation,
+
+      /// <summary>
+      ///   This indicates activity caused by an error.
+      /// </summary>
+      Error = DdemlMonitorFlags.Error,
+
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //String = DdemlMonitorFlags.String,
+
+    /// <summary>
+    ///   This indicates activity caused by an advise loop.
+    /// </summary>
+    Link = DdemlMonitorFlags.Link,
+
+    /// <summary>
+    ///   This indicates activity caused by DDE messages.
+    /// </summary>
+    Message = DdemlMonitorFlags.Message
+  } // enum
+
+    /// <summary>
+    ///   This is used to monitor DDE activity.
+    /// </summary>
+    public sealed class DdeMonitor : IDisposable
+  {
+    private readonly object _LockObject = new object();
+    private DdeContext _Context;
+
+    private DdemlMonitor _DdemlObject; // This has lazy initialization through a property.
+
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //public event EventHandler<DdeStringActivityEventArgs> StringActivity
+    //{
+    //    add
+    //    {
+    //        lock (_LockObject)
+    //        {
+    //            _StringActivityEvent += value;
+    //        }
+    //    }
+    //    remove
+    //    {
+    //        lock (_LockObject)
+    //        {
+    //            _StringActivityEvent -= value;
+    //        }
+    //    }
+    //}
+
+    /// <summary>
+    ///   This initializes a new instance of the <c>DdeMonitor</c> class.
+    /// </summary>
+    public DdeMonitor()
     {
-        /// <summary>
-        ///     This specifies the different kinds of DDE activity that can be monitored.
-        /// </summary>
-        [Flags]
-        public enum DdeMonitorFlags
-            {
-                /// <summary>
-                ///     This indicates activity caused by the execution of a DDEML callback.
-                /// </summary>
-                Callback = DdemlMonitorFlags.Callback,
+      Context = new DdeContext();
+    }
 
-                /// <summary>
-                ///     This indicates activity caused by conversation.
-                /// </summary>
-                Conversation = DdemlMonitorFlags.Conversation,
+    /// <summary>
+    ///   This gets the context associated with this instance.
+    /// </summary>
+    public DdeContext Context
+    {
+      get
+      {
+        lock (_LockObject)
+        {
+          return _Context;
+        }
+      }
+      private set
+      {
+        lock (_LockObject)
+        {
+          _Context = value;
+        }
+      }
+    }
 
-                /// <summary>
-                ///     This indicates activity caused by an error.
-                /// </summary>
-                Error = DdemlMonitorFlags.Error,
+    internal DdemlMonitor DdemlObject
+    {
+      get
+      {
+        lock (_LockObject)
+        {
+          if (_DdemlObject == null)
+          {
+            _DdemlObject = new DdemlMonitor(Context.DdemlObject);
+            _DdemlObject.CallbackActivity += OnCallbackActivity;
+            _DdemlObject.ConversationActivity += OnConversationActivity;
+            _DdemlObject.ErrorActivity += OnErrorActivity;
+            _DdemlObject.LinkActivity += OnLinkActivity;
+            _DdemlObject.MessageActivity += OnMessageActivity;
+            //_DdemlObject.StringActivity += new EventHandler<DdemlStringActivityEventArgs>(this.OnStringActivity);
+          }
 
-                ///// <summary>
-                ///// 
-                ///// </summary>
-                //String = DdemlMonitorFlags.String,
+          return _DdemlObject;
+        }
+      }
+    }
 
-                /// <summary>
-                ///     This indicates activity caused by an advise loop.
-                /// </summary>
-                Link = DdemlMonitorFlags.Link,
+    /// <summary>
+    ///   This releases all resources held by this instance.
+    /// </summary>
+    public void Dispose()
+    {
+      Dispose(true);
+    }
 
-                /// <summary>
-                ///     This indicates activity caused by DDE messages.
-                /// </summary>
-                Message = DdemlMonitorFlags.Message
-            } // enum
+    private event EventHandler<DdeCallbackActivityEventArgs> _CallbackActivityEvent;
+    private event EventHandler<DdeConversationActivityEventArgs> _ConversationActivityEvent;
+    private event EventHandler<DdeErrorActivityEventArgs> _ErrorActivityEvent;
+    private event EventHandler<DdeLinkActivityEventArgs> _LinkActivityEvent;
 
-        /// <summary>
-        ///     This is used to monitor DDE activity.
-        /// </summary>
-        public sealed class DdeMonitor : IDisposable
-            {
-                private DdeContext _Context;
+    private event EventHandler<DdeMessageActivityEventArgs> _MessageActivityEvent;
+    //private event EventHandler<DdeStringActivityEventArgs>       _StringActivityEvent       = null;
 
-                private DdemlMonitor _DdemlObject; // This has lazy initialization through a property.
-                private readonly object _LockObject = new object();
+    /// <summary>
+    ///   This is raised anytime a DDEML callback is executed.
+    /// </summary>
+    public event EventHandler<DdeCallbackActivityEventArgs> CallbackActivity
+    {
+      add
+      {
+        lock (_LockObject)
+        {
+          _CallbackActivityEvent += value;
+        }
+      }
+      remove
+      {
+        lock (_LockObject)
+        {
+          _CallbackActivityEvent -= value;
+        }
+      }
+    }
 
-                ///// <summary>
-                ///// 
-                ///// </summary>
-                //public event EventHandler<DdeStringActivityEventArgs> StringActivity
-                //{
-                //    add
-                //    {
-                //        lock (_LockObject)
-                //        {
-                //            _StringActivityEvent += value;
-                //        }
-                //    }
-                //    remove
-                //    {
-                //        lock (_LockObject)
-                //        {
-                //            _StringActivityEvent -= value;
-                //        }
-                //    }
-                //}
+    /// <summary>
+    ///   This is raised anytime a conversation is established or terminated.
+    /// </summary>
+    public event EventHandler<DdeConversationActivityEventArgs> ConversationActivity
+    {
+      add
+      {
+        lock (_LockObject)
+        {
+          _ConversationActivityEvent += value;
+        }
+      }
+      remove
+      {
+        lock (_LockObject)
+        {
+          _ConversationActivityEvent -= value;
+        }
+      }
+    }
 
-                /// <summary>
-                ///     This initializes a new instance of the <c>DdeMonitor</c> class.
-                /// </summary>
-                public DdeMonitor()
-                    {
-                        Context = new DdeContext();
-                    }
+    /// <summary>
+    ///   This is raised anytime there is an error.
+    /// </summary>
+    public event EventHandler<DdeErrorActivityEventArgs> ErrorActivity
+    {
+      add
+      {
+        lock (_LockObject)
+        {
+          _ErrorActivityEvent += value;
+        }
+      }
+      remove
+      {
+        lock (_LockObject)
+        {
+          _ErrorActivityEvent -= value;
+        }
+      }
+    }
 
-                /// <summary>
-                ///     This gets the context associated with this instance.
-                /// </summary>
-                public DdeContext Context
-                    {
-                        get
-                            {
-                                lock (_LockObject)
-                                    {
-                                        return _Context;
-                                    }
-                            }
-                        private set
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _Context = value;
-                                    }
-                            }
-                    }
+    /// <summary>
+    ///   This is raised anytime an advise loop is established or terminated.
+    /// </summary>
+    public event EventHandler<DdeLinkActivityEventArgs> LinkActivity
+    {
+      add
+      {
+        lock (_LockObject)
+        {
+          _LinkActivityEvent += value;
+        }
+      }
+      remove
+      {
+        lock (_LockObject)
+        {
+          _LinkActivityEvent -= value;
+        }
+      }
+    }
 
-                internal DdemlMonitor DdemlObject
-                    {
-                        get
-                            {
-                                lock (_LockObject)
-                                    {
-                                        if (_DdemlObject == null)
-                                            {
-                                                _DdemlObject = new DdemlMonitor(Context.DdemlObject);
-                                                _DdemlObject.CallbackActivity += OnCallbackActivity;
-                                                _DdemlObject.ConversationActivity += OnConversationActivity;
-                                                _DdemlObject.ErrorActivity += OnErrorActivity;
-                                                _DdemlObject.LinkActivity += OnLinkActivity;
-                                                _DdemlObject.MessageActivity += OnMessageActivity;
-                                                //_DdemlObject.StringActivity += new EventHandler<DdemlStringActivityEventArgs>(this.OnStringActivity);
-                                            }
-                                        return _DdemlObject;
-                                    }
-                            }
-                    }
+    /// <summary>
+    ///   This is raised anytime a DDE message is sent or posted.
+    /// </summary>
+    public event EventHandler<DdeMessageActivityEventArgs> MessageActivity
+    {
+      add
+      {
+        lock (_LockObject)
+        {
+          _MessageActivityEvent += value;
+        }
+      }
+      remove
+      {
+        lock (_LockObject)
+        {
+          _MessageActivityEvent -= value;
+        }
+      }
+    }
 
-                /// <summary>
-                ///     This releases all resources held by this instance.
-                /// </summary>
-                public void Dispose()
-                    {
-                        Dispose(true);
-                    }
+    private void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        ThreadStart method = delegate { DdemlObject.Dispose(); };
 
-                private event EventHandler<DdeCallbackActivityEventArgs> _CallbackActivityEvent;
-                private event EventHandler<DdeConversationActivityEventArgs> _ConversationActivityEvent;
-                private event EventHandler<DdeErrorActivityEventArgs> _ErrorActivityEvent;
-                private event EventHandler<DdeLinkActivityEventArgs> _LinkActivityEvent;
+        try
+        {
+          Context.Invoke(method);
+        }
+        catch
+        {
+          // Swallow any exception that occurs.
+        }
+      }
+    }
 
-                private event EventHandler<DdeMessageActivityEventArgs> _MessageActivityEvent;
-                //private event EventHandler<DdeStringActivityEventArgs>       _StringActivityEvent       = null;
+    /// <summary>
+    ///   This starts monitoring the system for DDE activity.
+    /// </summary>
+    /// <param name="flags">
+    ///   A bitwise combination of <c>DdeMonitorFlags</c> that indicate what DDE activity will be monitored.
+    /// </param>
+    public void Start(DdeMonitorFlags flags)
+    {
+      ThreadStart method = delegate { DdemlObject.Start((DdemlMonitorFlags) (int) flags); };
 
-                /// <summary>
-                ///     This is raised anytime a DDEML callback is executed.
-                /// </summary>
-                public event EventHandler<DdeCallbackActivityEventArgs> CallbackActivity
-                    {
-                        add
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _CallbackActivityEvent += value;
-                                    }
-                            }
-                        remove
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _CallbackActivityEvent -= value;
-                                    }
-                            }
-                    }
+      try
+      {
+        Context.Invoke(method);
+      }
+      catch (DdemlException e)
+      {
+        throw new DdeException(e);
+      }
+      catch (ObjectDisposedException e)
+      {
+        throw new ObjectDisposedException(GetType().ToString(), e);
+      }
+    }
 
-                /// <summary>
-                ///     This is raised anytime a conversation is established or terminated.
-                /// </summary>
-                public event EventHandler<DdeConversationActivityEventArgs> ConversationActivity
-                    {
-                        add
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _ConversationActivityEvent += value;
-                                    }
-                            }
-                        remove
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _ConversationActivityEvent -= value;
-                                    }
-                            }
-                    }
+    //private void OnStringActivity(object sender, DdemlStringActivityEventArgs e)
+    //{
+    //    EventHandler<DdeStringActivityEventArgs> copy;
 
-                /// <summary>
-                ///     This is raised anytime there is an error.
-                /// </summary>
-                public event EventHandler<DdeErrorActivityEventArgs> ErrorActivity
-                    {
-                        add
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _ErrorActivityEvent += value;
-                                    }
-                            }
-                        remove
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _ErrorActivityEvent -= value;
-                                    }
-                            }
-                    }
+    //    // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
+    //    //immutable.
+    //    lock (_LockObject)
+    //    {
+    //        copy = _StringActivityEvent;
+    //    }
 
-                /// <summary>
-                ///     This is raised anytime an advise loop is established or terminated.
-                /// </summary>
-                public event EventHandler<DdeLinkActivityEventArgs> LinkActivity
-                    {
-                        add
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _LinkActivityEvent += value;
-                                    }
-                            }
-                        remove
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _LinkActivityEvent -= value;
-                                    }
-                            }
-                    }
+    //    if (copy != null)
+    //    {
+    //        copy(this, new DdeStringActivityEventArgs(e));
+    //    }
+    //}
 
-                /// <summary>
-                ///     This is raised anytime a DDE message is sent or posted.
-                /// </summary>
-                public event EventHandler<DdeMessageActivityEventArgs> MessageActivity
-                    {
-                        add
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _MessageActivityEvent += value;
-                                    }
-                            }
-                        remove
-                            {
-                                lock (_LockObject)
-                                    {
-                                        _MessageActivityEvent -= value;
-                                    }
-                            }
-                    }
+    private void OnMessageActivity(object sender, DdemlMessageActivityEventArgs e)
+    {
+      EventHandler<DdeMessageActivityEventArgs> copy;
 
-                private void Dispose(bool disposing)
-                    {
-                        if (disposing)
-                            {
-                                ThreadStart method = delegate { DdemlObject.Dispose(); };
+      // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
+      //immutable.
+      lock (_LockObject)
+      {
+        copy = _MessageActivityEvent;
+      }
 
-                                try
-                                    {
-                                        Context.Invoke(method);
-                                    }
-                                catch
-                                    {
-                                        // Swallow any exception that occurs.
-                                    }
-                            }
-                    }
+      if (copy != null)
+        copy(this, new DdeMessageActivityEventArgs(e));
+    }
 
-                /// <summary>
-                ///     This starts monitoring the system for DDE activity.
-                /// </summary>
-                /// <param name="flags">
-                ///     A bitwise combination of <c>DdeMonitorFlags</c> that indicate what DDE activity will be monitored.
-                /// </param>
-                public void Start(DdeMonitorFlags flags)
-                    {
-                        ThreadStart method = delegate { DdemlObject.Start((DdemlMonitorFlags) (int) flags); };
+    private void OnLinkActivity(object sender, DdemlLinkActivityEventArgs e)
+    {
+      EventHandler<DdeLinkActivityEventArgs> copy;
 
-                        try
-                            {
-                                Context.Invoke(method);
-                            }
-                        catch (DdemlException e)
-                            {
-                                throw new DdeException(e);
-                            }
-                        catch (ObjectDisposedException e)
-                            {
-                                throw new ObjectDisposedException(GetType().ToString(), e);
-                            }
-                    }
+      // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
+      //immutable.
+      lock (_LockObject)
+      {
+        copy = _LinkActivityEvent;
+      }
 
-                //private void OnStringActivity(object sender, DdemlStringActivityEventArgs e)
-                //{
-                //    EventHandler<DdeStringActivityEventArgs> copy;
+      if (copy != null)
+        copy(this, new DdeLinkActivityEventArgs(e));
+    }
 
-                //    // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
-                //    //immutable.
-                //    lock (_LockObject)
-                //    {
-                //        copy = _StringActivityEvent;
-                //    }
+    private void OnErrorActivity(object sender, DdemlErrorActivityEventArgs e)
+    {
+      EventHandler<DdeErrorActivityEventArgs> copy;
 
-                //    if (copy != null)
-                //    {
-                //        copy(this, new DdeStringActivityEventArgs(e));
-                //    }
-                //}
+      // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
+      //immutable.
+      lock (_LockObject)
+      {
+        copy = _ErrorActivityEvent;
+      }
 
-                private void OnMessageActivity(object sender, DdemlMessageActivityEventArgs e)
-                    {
-                        EventHandler<DdeMessageActivityEventArgs> copy;
+      if (copy != null)
+        copy(this, new DdeErrorActivityEventArgs(e));
+    }
 
-                        // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
-                        //immutable.
-                        lock (_LockObject)
-                            {
-                                copy = _MessageActivityEvent;
-                            }
+    private void OnConversationActivity(object sender, DdemlConversationActivityEventArgs e)
+    {
+      EventHandler<DdeConversationActivityEventArgs> copy;
 
-                        if (copy != null)
-                            copy(this, new DdeMessageActivityEventArgs(e));
-                    }
+      // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
+      //immutable.
+      lock (_LockObject)
+      {
+        copy = _ConversationActivityEvent;
+      }
 
-                private void OnLinkActivity(object sender, DdemlLinkActivityEventArgs e)
-                    {
-                        EventHandler<DdeLinkActivityEventArgs> copy;
+      if (copy != null)
+        copy(this, new DdeConversationActivityEventArgs(e));
+    }
 
-                        // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
-                        //immutable.
-                        lock (_LockObject)
-                            {
-                                copy = _LinkActivityEvent;
-                            }
+    private void OnCallbackActivity(object sender, DdemlCallbackActivityEventArgs e)
+    {
+      EventHandler<DdeCallbackActivityEventArgs> copy;
 
-                        if (copy != null)
-                            copy(this, new DdeLinkActivityEventArgs(e));
-                    }
+      // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
+      //immutable.
+      lock (_LockObject)
+      {
+        copy = _CallbackActivityEvent;
+      }
 
-                private void OnErrorActivity(object sender, DdemlErrorActivityEventArgs e)
-                    {
-                        EventHandler<DdeErrorActivityEventArgs> copy;
-
-                        // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
-                        //immutable.
-                        lock (_LockObject)
-                            {
-                                copy = _ErrorActivityEvent;
-                            }
-
-                        if (copy != null)
-                            copy(this, new DdeErrorActivityEventArgs(e));
-                    }
-
-                private void OnConversationActivity(object sender, DdemlConversationActivityEventArgs e)
-                    {
-                        EventHandler<DdeConversationActivityEventArgs> copy;
-
-                        // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
-                        //immutable.
-                        lock (_LockObject)
-                            {
-                                copy = _ConversationActivityEvent;
-                            }
-
-                        if (copy != null)
-                            copy(this, new DdeConversationActivityEventArgs(e));
-                    }
-
-                private void OnCallbackActivity(object sender, DdemlCallbackActivityEventArgs e)
-                    {
-                        EventHandler<DdeCallbackActivityEventArgs> copy;
-
-                        // To make this thread-safe we need to hold a local copy of the reference to the invocation list.  This works because delegates are
-                        //immutable.
-                        lock (_LockObject)
-                            {
-                                copy = _CallbackActivityEvent;
-                            }
-
-                        if (copy != null)
-                            copy(this, new DdeCallbackActivityEventArgs(e));
-                    }
-            } // class
-    } // namespace
+      if (copy != null)
+        copy(this, new DdeCallbackActivityEventArgs(e));
+    }
+  } // class
+} // namespace

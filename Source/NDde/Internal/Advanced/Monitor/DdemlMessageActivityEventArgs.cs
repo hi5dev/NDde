@@ -37,27 +37,27 @@ using System;
 using System.Windows.Forms;
 
 namespace NDde.Foundation.Advanced.Monitor
+{
+  internal enum DdemlMessageActivityKind
+  {
+    Post,
+
+    Send
+  } // enum
+
+  internal sealed class DdemlMessageActivityEventArgs : DdemlActivityEventArgs
+  {
+    public DdemlMessageActivityEventArgs(
+      DdemlMessageActivityKind kind,
+      Message message,
+      IntPtr taskHandle) : base(taskHandle)
     {
-        internal enum DdemlMessageActivityKind
-            {
-                Post,
+      Kind = kind;
+      Message = message;
+    }
 
-                Send
-            } // enum
+    public DdemlMessageActivityKind Kind { get; } = DdemlMessageActivityKind.Post;
 
-        internal sealed class DdemlMessageActivityEventArgs : DdemlActivityEventArgs
-            {
-                public DdemlMessageActivityEventArgs(
-                    DdemlMessageActivityKind kind,
-                    Message message,
-                    IntPtr taskHandle) : base(taskHandle)
-                    {
-                        Kind = kind;
-                        Message = message;
-                    }
-
-                public DdemlMessageActivityKind Kind { get; } = DdemlMessageActivityKind.Post;
-
-                public Message Message { get; }
-            } // class
-    } // namespace
+    public Message Message { get; }
+  } // class
+} // namespace
