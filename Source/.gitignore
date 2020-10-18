@@ -1,0 +1,10 @@
+# Ignore IDE generated files.
+*.DotSettings.user
+.idea/
+.vs/
+Backup/
+
+# Ignore build files.
+Binary/
+bin/
+obj/
