@@ -61,16 +61,14 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("9e2a31da-f0a0-4094-a6cd-85ceb9ac297a")]
 
-// Version information for an assembly consists of the following four values:
+// This project follows semantic versioning. Given a version number MAJOR.MINOR.PATCH, increment the:
 //
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
+// 1. MAJOR version when you make incompatible API changes,
+// 2. MINOR version when you add functionality in a backwards compatible manner, and
+// 3. PATCH version when you make backwards compatible bug fixes.
 //
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-[assembly: AssemblyVersion("2.01.0563.0")]
-[assembly: AssemblyFileVersion("2.01.0563.0")] // 1/17/2005 is the original build date
+// https://semver.org/spec/v2.0.0.html
+[assembly: AssemblyVersion("3.0.0")]
+[assembly: AssemblyFileVersion("3.0.0")]
 
 [assembly: CLSCompliant(true)]
