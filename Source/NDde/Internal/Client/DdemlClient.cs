@@ -41,7 +41,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using ASSIST_Extensions;
 using NDde.Foundation.Advanced;
 using NDde.Properties;
 
@@ -49,9 +48,7 @@ namespace NDde.Foundation.Client
     {
     internal class DdemlClient : IDisposable
         {
-
-        internal static EventLog EventLogWriter =
-                    CreateEventsLogger.CreaterEventLogger("NDDE Events", "NdDeEventsLog");
+            private static readonly EventLog EventLogWriter = new EventLog("Application");
         private readonly IDictionary<string, AdviseLoop> _AdviseLoopTable = new Dictionary<string, AdviseLoop>()
                     ; // Active DDEML advise loops
 
@@ -85,6 +82,8 @@ namespace NDde.Foundation.Client
             _Service = service;
             _Topic = topic;
             _Context = context;
+
+            EventLogWriter.Source = "Application";
             }
 
         public virtual string Service => _Service;
@@ -172,6 +171,8 @@ namespace NDde.Foundation.Client
                                 }
                             }
                         }
+
+                    EventLogWriter.Dispose();
                     }
                 else
                     {

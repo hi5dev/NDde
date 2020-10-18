@@ -40,7 +40,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using ASSIST_Extensions;
 using NDde.Foundation;
 using NDde.Foundation.Advanced;
 using ThreadState = System.Threading.ThreadState;
@@ -89,7 +88,7 @@ namespace NDde.Advanced
         /// <include file='Documentation/Examples.xml' path='Comment/Member[@name="DdeContext"]/*' />
         public sealed class DdeContext : IDisposable, ISynchronizeInvoke
             {
-        internal static EventLog EventLogWriter = CreateEventsLogger.CreaterEventLogger("NDDE Events", "NdDeEventsLog");
+                private static readonly EventLog EventLogWriter = new EventLog("Application");
         private static DdeContext _Instance;
                 private static readonly object _InstanceLock = new object();
 
@@ -119,7 +118,9 @@ namespace NDde.Advanced
                 ///     This constructor is used when you want the context to create and manage its own thread for DDE message pumping.
                 /// </remarks>
                 public DdeContext()
-                    { }
+                {
+                    EventLogWriter.Source = "Application";
+                }
 
                 /// <summary>
                 ///     This initializes a new instance of the <c>DdeContext</c> class that uses the specified synchronizing object for
@@ -402,6 +403,8 @@ namespace NDde.Advanced
                                     {
                                         // Swallow any exception that occurs.
                                     }
+
+                                EventLogWriter.Dispose();
                             }
                     }
 

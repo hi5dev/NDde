@@ -37,7 +37,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using ASSIST_Extensions;
 using NDde.Advanced;
 using NDde.Foundation;
 using NDde.Foundation.Client;
@@ -80,8 +79,7 @@ namespace NDde.Client
     /// <include file='Documentation/Examples.xml' path='Comment/Member[@name="DdeClient"]/*' />
     public class DdeClient : IDisposable
         {
-        internal static EventLog EventLogWriter =
-                    CreateEventsLogger.CreaterEventLogger("NDDE Events", "NdDeEventsLog");
+            private static readonly EventLog EventLogWriter = new EventLog("Application");
 
         private EventHandler<DdeAdviseEventArgs> _AdviseEvent;
         private DdeContext _Context;
@@ -120,7 +118,9 @@ namespace NDde.Client
         /// </exception>
         public DdeClient(string service, string topic)
             : this(service, topic, DdeContext.GetDefault())
-            { }
+        {
+            EventLogWriter.Source = "Application";
+        }
 
         /// <summary>
         ///     This initializes a new instance of the <c>DdeClient</c> class that can connect to a server that supports the
@@ -376,8 +376,10 @@ namespace NDde.Client
                 {
                 ThreadStart method = delegate { DdemlObject.Dispose(); };
 
+                EventLogWriter.Dispose();
+
                 try
-                    {
+                {
                     Context.Invoke(method);
                     }
                 catch
