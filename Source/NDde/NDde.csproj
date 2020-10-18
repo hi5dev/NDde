@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NDde</RootNamespace>
     <AssemblyName>NDde</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -45,13 +45,10 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NDdeSSC-FortSmith-Dev-Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ASSIST_Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>S:\ARSC Scripting Backup\ASSIST DEVELOPEMENT TRANSFER\Libraries\ASSIST_Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -78,7 +75,6 @@
     <Compile Include="Public\Advanced\Monitor\DdeMessageActivityEventArgs.cs" />
     <Compile Include="Public\Advanced\Monitor\DdeActivityEventArgs.cs" />
     <Compile Include="Public\Advanced\Monitor\DdeMonitor.cs" />
-    <None Include="NDdeSSC-FortSmith-Dev-Key.pfx" />
     <None Include="Public\Advanced\Monitor\DdeStringActivityEventArgs.cs" />
     <Compile Include="Public\Client\DdeClient.cs" />
     <Compile Include="Public\Advanced\DdeContext.cs">
