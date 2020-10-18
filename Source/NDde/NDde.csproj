@@ -55,48 +55,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal\Advanced\Monitor\DdemlActivityEventArgs.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlMessageActivityEventArgs.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlLinkActivityEventArgs.cs" />
-    <Compile Include="Internal\DdemlEventArgs.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlStringActivityEventArgs.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlErrorActivityEventArgs.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlConversationActivityEventArgs.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlCallbackActivityEventArgs.cs" />
-    <Compile Include="Internal\Server\DdemlConversation.cs" />
-    <Compile Include="Public\Advanced\DdeMessageLoop.cs">
-    </Compile>
-    <Compile Include="Public\Advanced\DdeTransaction.cs" />
-    <Compile Include="Public\Advanced\IDdeTransactionFilter.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeCallbackActivityEventArgs.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeConversationActivityEventArgs.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeErrorActivityEventArgs.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeLinkActivityEventArgs.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeMessageActivityEventArgs.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeActivityEventArgs.cs" />
-    <Compile Include="Public\Advanced\Monitor\DdeMonitor.cs" />
-    <None Include="Public\Advanced\Monitor\DdeStringActivityEventArgs.cs" />
-    <Compile Include="Public\Client\DdeClient.cs" />
-    <Compile Include="Public\Advanced\DdeContext.cs">
-    </Compile>
-    <Compile Include="Public\DdeEventArgs.cs" />
-    <Compile Include="Public\Server\DdeConversation.cs" />
-    <Compile Include="Public\DdeException.cs" />
-    <Compile Include="Public\Client\DdeAdviseEventArgs.cs" />
-    <Compile Include="Public\Client\DdeDisconnectedEventArgs.cs" />
-    <Compile Include="Internal\Advanced\IDdemlTransactionFilter.cs" />
-    <Compile Include="Internal\Advanced\DdemlTransaction.cs" />
-    <Compile Include="Public\Advanced\DdeRegistrationEventArgs.cs" />
-    <Compile Include="Internal\Advanced\DdemlRegistrationEventArgs.cs" />
-    <Compile Include="Internal\Client\DdemlDisconnectedEventArgs.cs" />
-    <Compile Include="Internal\Ddeml.cs" />
-    <Compile Include="Internal\Client\DdemlAdviseEventArgs.cs" />
-    <Compile Include="Internal\Client\DdemlClient.cs" />
-    <Compile Include="Internal\Advanced\DdemlContext.cs" />
-    <Compile Include="Internal\DdemlException.cs" />
-    <Compile Include="Internal\Advanced\Monitor\DdemlMonitor.cs" />
-    <Compile Include="Internal\Server\DdemlServer.cs" />
-    <Compile Include="Public\Server\DdeServer.cs" />
+    <Compile Include="Advanced\DdeContext.cs" />
+    <Compile Include="Advanced\DdeMessageLoop.cs" />
+    <Compile Include="Advanced\DdeRegistrationEventArgs.cs" />
+    <Compile Include="Advanced\DdeTransaction.cs" />
+    <Compile Include="Advanced\IDdeTransactionFilter.cs" />
+    <Compile Include="Advanced\Monitor\DdeActivityEventArgs.cs" />
+    <Compile Include="Advanced\Monitor\DdeCallbackActivityEventArgs.cs" />
+    <Compile Include="Advanced\Monitor\DdeConversationActivityEventArgs.cs" />
+    <Compile Include="Advanced\Monitor\DdeErrorActivityEventArgs.cs" />
+    <Compile Include="Advanced\Monitor\DdeLinkActivityEventArgs.cs" />
+    <Compile Include="Advanced\Monitor\DdeMessageActivityEventArgs.cs" />
+    <Compile Include="Advanced\Monitor\DdeMonitor.cs" />
+    <Compile Include="Client\DdeAdviseEventArgs.cs" />
+    <Compile Include="Client\DdeClient.cs" />
+    <Compile Include="Client\DdeDisconnectedEventArgs.cs" />
+    <Compile Include="DdeEventArgs.cs" />
+    <Compile Include="DdeException.cs" />
+    <Compile Include="Foundation\Advanced\DdemlContext.cs" />
+    <Compile Include="Foundation\Advanced\DdemlRegistrationEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\DdemlTransaction.cs" />
+    <Compile Include="Foundation\Advanced\IDdemlTransactionFilter.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlActivityEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlCallbackActivityEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlConversationActivityEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlErrorActivityEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlLinkActivityEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlMessageActivityEventArgs.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlMonitor.cs" />
+    <Compile Include="Foundation\Advanced\Monitor\DdemlStringActivityEventArgs.cs" />
+    <Compile Include="Foundation\Client\DdemlAdviseEventArgs.cs" />
+    <Compile Include="Foundation\Client\DdemlClient.cs" />
+    <Compile Include="Foundation\Client\DdemlDisconnectedEventArgs.cs" />
+    <Compile Include="Foundation\Ddeml.cs" />
+    <Compile Include="Foundation\DdemlEventArgs.cs" />
+    <Compile Include="Foundation\DdemlException.cs" />
+    <Compile Include="Foundation\Server\DdemlConversation.cs" />
+    <Compile Include="Foundation\Server\DdemlServer.cs" />
+    <Compile Include="Foundation\Utility\WeakReferenceDictionary.cs" />
     <Compile Include="Documentation\NamespaceDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -104,7 +100,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Internal\Utility\WeakReferenceDictionary.cs" />
+    <Compile Include="Server\DdeConversation.cs" />
+    <Compile Include="Server\DdeServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -114,6 +111,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Advanced\Monitor\DdeStringActivityEventArgs.cs" />
     <None Include="Documentation\Examples.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
