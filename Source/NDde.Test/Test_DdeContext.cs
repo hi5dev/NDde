@@ -43,25 +43,29 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Initialize_After_Dispose()
     {
-      using (var context = new DdeContext())
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        context.Dispose();
-        context.Initialize();
-      }
+        using (var context = new DdeContext())
+        {
+          context.Dispose();
+          context.Initialize();
+        }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Initialize_After_Initialize()
     {
-      using (var context = new DdeContext())
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        context.Initialize();
-        context.Initialize();
-      }
+        using (var context = new DdeContext())
+        {
+          context.Initialize();
+          context.Initialize();
+        }
+      });
     }
 
     [Test]
@@ -94,15 +98,17 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_AddTransactionFilter_After_Dispose()
     {
-      using (var context = new DdeContext())
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        IDdeTransactionFilter filter = new TransactionFilter();
-        context.Dispose();
-        context.AddTransactionFilter(filter);
-      }
+        using (var context = new DdeContext())
+        {
+          IDdeTransactionFilter filter = new TransactionFilter();
+          context.Dispose();
+          context.AddTransactionFilter(filter);
+        }
+      });
     }
 
     [Test]
@@ -117,16 +123,18 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_RemoveTransactionFilter_After_Dispose()
     {
-      using (var context = new DdeContext())
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        var filter = new TransactionFilter();
-        context.AddTransactionFilter(filter);
-        context.Dispose();
-        context.RemoveTransactionFilter(filter);
-      }
+        using (var context = new DdeContext())
+        {
+          var filter = new TransactionFilter();
+          context.AddTransactionFilter(filter);
+          context.Dispose();
+          context.RemoveTransactionFilter(filter);
+        }
+      });
     }
 
     [Test]

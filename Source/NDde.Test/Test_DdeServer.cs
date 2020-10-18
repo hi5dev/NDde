@@ -46,25 +46,29 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Register_After_Dispose()
     {
-      using (DdeServer server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Dispose();
-        server.Register();
-      }
+        using (DdeServer server = new TestServer(ServiceName))
+        {
+          server.Dispose();
+          server.Register();
+        }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Register_After_Register()
     {
-      using (DdeServer server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        server.Register();
-      }
+        using (DdeServer server = new TestServer(ServiceName))
+        {
+          server.Register();
+          server.Register();
+        }
+      });
     }
 
     [Test]
@@ -90,25 +94,29 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Unregister_After_Dispose()
     {
-      using (DdeServer server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        server.Dispose();
-        server.Unregister();
-      }
+        using (DdeServer server = new TestServer(ServiceName))
+        {
+          server.Register();
+          server.Dispose();
+          server.Unregister();
+        }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Unregister_Before_Register()
     {
-      using (DdeServer server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Unregister();
-      }
+        using (DdeServer server = new TestServer(ServiceName))
+        {
+          server.Unregister();
+        }
+      });
     }
 
     [Test]

@@ -71,33 +71,37 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Connect_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Dispose();
-          client.Connect();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Dispose();
+            client.Connect();
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Connect_After_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Connect();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Connect();
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -115,33 +119,37 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Disconnect_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          client.Disconnect();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            client.Disconnect();
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Disconnect_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Disconnect();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Disconnect();
+          }
         }
-      }
+      });
     }
 
 
@@ -264,35 +272,39 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Pause_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          client.Pause();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            client.Pause();
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Pause_After_Pause()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Pause();
-          client.Pause();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Pause();
+            client.Pause();
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -314,35 +326,39 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Resume_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Pause();
-          client.Dispose();
-          client.Resume();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Pause();
+            client.Dispose();
+            client.Resume();
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Resume_Before_Pause()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Resume();
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Resume();
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -365,21 +381,23 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Abandon_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Pause();
-          var ar = client.BeginExecute(CommandText, null, null);
-          client.Dispose();
-          client.Abandon(ar);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Pause();
+            var ar = client.BeginExecute(CommandText, null, null);
+            client.Dispose();
+            client.Abandon(ar);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -473,33 +491,37 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Poke_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          client.Poke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, Timeout);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            client.Poke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Poke_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Poke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, Timeout);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Poke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -518,33 +540,37 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_BeginPoke_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          var ar = client.BeginPoke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, null, null);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            var ar = client.BeginPoke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_BeginPoke_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          var ar = client.BeginPoke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, null, null);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            var ar = client.BeginPoke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -565,21 +591,23 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_EndPoke_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          var ar = client.BeginPoke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, null, null);
-          Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
-          client.Dispose();
-          client.EndPoke(ar);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            var ar = client.BeginPoke(ItemName, Encoding.ASCII.GetBytes(TestData), 1, null, null);
+            Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
+            client.Dispose();
+            client.EndPoke(ar);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -649,35 +677,39 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Request_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          var data = client.Request(ItemName, 1, Timeout);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            var data = client.Request(ItemName, 1, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Request_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          var data = client.Request(ItemName, 1, Timeout);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            var data = client.Request(ItemName, 1, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -697,35 +729,39 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_BeginRequest_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          var ar = client.BeginRequest(ItemName, 1, null, null);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            var ar = client.BeginRequest(ItemName, 1, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_BeginRequest_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          var ar = client.BeginRequest(ItemName, 1, null, null);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            var ar = client.BeginRequest(ItemName, 1, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -747,22 +783,24 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_EndRequest_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          var ar = client.BeginRequest(ItemName, 1, null, null);
-          Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
-          client.Dispose();
-          var data = client.EndRequest(ar);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            var ar = client.BeginRequest(ItemName, 1, null, null);
+            Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
+            client.Dispose();
+            var data = client.EndRequest(ar);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -811,33 +849,37 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_Execute_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          client.Execute(TestData, Timeout);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            client.Execute(TestData, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_Execute_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Execute(TestData, Timeout);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Execute(TestData, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -856,33 +898,37 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_BeginExecute_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          var ar = client.BeginExecute(TestData, null, null);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            var ar = client.BeginExecute(TestData, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_BeginExecute_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          var ar = client.BeginExecute(TestData, null, null);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            var ar = client.BeginExecute(TestData, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -903,21 +949,23 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_EndExecute_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          var ar = client.BeginExecute(TestData, null, null);
-          Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
-          client.Dispose();
-          client.EndExecute(ar);
+          server.Register();
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            var ar = client.BeginExecute(TestData, null, null);
+            Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
+            client.Dispose();
+            client.EndExecute(ar);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -1054,51 +1102,57 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_StartAdvise_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() => 
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          client.StartAdvise(ItemName, 1, false, Timeout);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            client.StartAdvise(ItemName, 1, false, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_StartAdvise_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() => 
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.StartAdvise(ItemName, 1, false, Timeout);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.StartAdvise(ItemName, 1, false, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_StartAdvise_After_StartAdvise()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.StartAdvise(ItemName, 1, false, Timeout);
-          client.StartAdvise(ItemName, 1, false, Timeout);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.StartAdvise(ItemName, 1, false, Timeout);
+            client.StartAdvise(ItemName, 1, false, Timeout);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -1175,35 +1229,38 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_BeginStartAdvise_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.Dispose();
-          var ar = client.BeginStartAdvise(ItemName, 1, false, null, null);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.Dispose();
+            var ar = client.BeginStartAdvise(ItemName, 1, false, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_BeginStartAdvise_Before_Connect()
     {
-      using (var server = new TestServer(ServiceName))
-      {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+      Assert.Throws<InvalidOperationException>(() => {
+        using (var server = new TestServer(ServiceName))
         {
-          var ar = client.BeginStartAdvise(ItemName, 1, false, null, null);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            var ar = client.BeginStartAdvise(ItemName, 1, false, null, null);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -1224,22 +1281,24 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(ObjectDisposedException))]
     public void Test_EndStartAdvise_After_Dispose()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<ObjectDisposedException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          var ar = client.BeginStartAdvise(ItemName, 1, true, null, null);
-          Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
-          client.Dispose();
-          client.EndStartAdvise(ar);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            var ar = client.BeginStartAdvise(ItemName, 1, true, null, null);
+            Assert.IsTrue(ar.AsyncWaitHandle.WaitOne(Timeout, false));
+            client.Dispose();
+            client.EndStartAdvise(ar);
+          }
         }
-      }
+      });
     }
 
     [Test]
@@ -1259,19 +1318,21 @@ namespace NDde.Test
     }
 
     [Test]
-    [ExpectedException(typeof(InvalidOperationException))]
     public void Test_StopAdvise_Before_StartAdvise()
     {
-      using (var server = new TestServer(ServiceName))
+      Assert.Throws<InvalidOperationException>(() =>
       {
-        server.Register();
-        server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
-        using (var client = new DdeClient(ServiceName, TopicName))
+        using (var server = new TestServer(ServiceName))
         {
-          client.Connect();
-          client.StopAdvise(ItemName, Timeout);
+          server.Register();
+          server.SetData(TopicName, ItemName, 1, Encoding.ASCII.GetBytes(TestData));
+          using (var client = new DdeClient(ServiceName, TopicName))
+          {
+            client.Connect();
+            client.StopAdvise(ItemName, Timeout);
+          }
         }
-      }
+      });
     }
   } // class
 } // namespace
