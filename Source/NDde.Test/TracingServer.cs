@@ -6,12 +6,12 @@ namespace NDde.Test
 {
   internal class TracingServer : DdeServer
   {
-    public TracingServer(string service)
+    protected TracingServer(string service)
       : base(service)
     {
     }
 
-    public TracingServer(string service, DdeContext context)
+    protected TracingServer(string service, DdeContext context)
       : base(service, context)
     {
     }
